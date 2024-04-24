@@ -10,9 +10,10 @@ if (params.has('errors')) {
   quantities = JSON.parse(params.get('quantities'));
   // Put up an alert box if there are errors
   // <modify code here to put up an alert if your have an error in errors indicating no quantities were selected>
-  alert('Please fix the errors in the form and resubmit');
+  if(typeof errors['no_quantities'] !== 'undefined'){
+    alert(errors['no_quantities']);
 }
-
+}
 let products;
 window.onload = async function () {
   // use fetch to retrieve product data from the server
@@ -47,7 +48,6 @@ function myFunction() {
   }
 }
 
-
 function display_products() {
   // loop through the products array and display each product as a section element
   for (let i = 0; i < products.length; i++) {
@@ -63,7 +63,9 @@ function display_products() {
     }
     products_main_display.innerHTML += `
 <section class="item">
-                <h2>${products[i].name}</h2>
+                <h2>${products[i].model}</h2>
+                <h4> In Stock ${products[i].quantity_available}</h4>
+                <h4> Sold ${products[i].quantity_sold}</h4>
                 <p>$${products[i].price}</p>
                 <label>${quantity_label}</label>
                 <input type="text" placeholder="0" name="quantity_textbox[${i}]" value="${quantity}">

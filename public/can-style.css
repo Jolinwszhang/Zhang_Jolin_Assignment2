@@ -1,175 +1,142 @@
-html {
-  font-family: 'Raleway', sans-serif;
-  background-color: yellow;
-  font-size: 10px;
+/*css got help with chat gpt*/
+
+/* Sidebar links */
+.w3-sidebar a {
+  font-family: "Roboto", sans-serif;
 }
 
-body {
-  width:800px;
-  margin:0 auto;
-  }
+/* Body and headings */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.w3-wide {
+  font-family: "Montserrat", sans-serif;
+}
+.available {
+  color: green;
+}
+.sold {
+  color: red;
+}
+/* Style for product images */
+.w3-container {
+  position: relative; /* Add this to make the container relative for absolute positioning of the quantity text box */
+}
 
-  h1,h2 {
-  font-family:'Cherry Swash', cursive;
-  text-align:center;
-  margin:0;
-  }
+/* Style for quantity text box */
+.quantity-input {
+  position: absolute;
+  bottom: 20px; /* Adjust the bottom position as needed */
+  width: 20px; /* Adjust the width to the desired size */
+  right: 10px; /* Adjust the right position to move it to the side */
+  transform: translateY(-50%); /* Center the text box vertically */
+}
 
-  h1 {
-  font-size:5rem;
-  }
+/* Style for product grid */
+.w3-row.w3-grayscale {
+  margin-top: 10px;
+}
 
-  h2 {
-  font-size:2rem;
-  color:#FF0;
-  text-align:right;
-  width:160px;
-  position:absolute;
-  right:4%;
-  z-index:3000;
-  text-shadow:2px 2px 1px #000;
-  line-height:2rem;
-  padding-top:.3rem;
-  }
+.w3-container img {
+  border-radius: 3px;
+  transition: transform 0.3s ease;
+  width: 100%; /* Adjust the width to the desired size */
+  height: 200px; /* Adjust the height to the desired size */
+  object-fit: cover; /* Ensures the image retains its aspect ratio and covers the specified dimensions */
+}
 
-  .error_message {
-  color: #fffb00;
-  }
+.w3-container img:hover {
+  transform: scale(1.05);
+}
 
-  p,label,input,select,button,li {
-  font-size:1.5rem;
-  }
+/* Style for product descriptions */
+.w3-container p {
+  margin-top: 10px;
+  font-size: 16px;
+}
 
-  li {
-  line-height:1.5;
-  }
+/* Style for product price */
+.w3-container p b {
+  color: #333;
+}
 
-  header,aside,main,footer {
-  padding:20px;
-  }
+/* Style for new and sale tags */
+.w3-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+}
 
-  header {
-  border:5px solid #000;
-  border-bottom:0;
-  }
+/* Hide display-hover tags by default */
+.w3-tag.w3-display-hover {
+  display: none;
+}
 
-  aside {
-  border-right:5px solid #000;
-  flex:3;
-  display:flex;
-  flex-flow:column;
-  align-items:stretch;
-  }
+/* Show display-hover tags on container hover */
+.w3-container:hover .w3-tag.w3-display-hover {
+  display: block;
+}
 
-  body > div {
-  border:5px solid #000;
-  display:flex;
-  }
+/* Button hover effect */
+.w3-button:hover {
+  background-color: #45a049;
+}
 
-  footer {
-  border:5px solid #000;
-  border-top:0;
-  }
+/* Main content layout */
+main {
+  flex-flow: row wrap;
+  justify-content: space-between; /* This will align items to the left and right */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px; /* Adjust the gap between images */
+}
 
-  main {
-  flex:7;
-  display:flex;
-  flex-flow:row wrap;
-  justify-content:space-around;
-  }
+/* Style for purchase button */
+.purchase-button {
+  position: absolute;
+  top: 10px; /* Adjust the top position as needed */
+  right: 10px; /* Adjust the right position as needed */
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-  aside div {
-  margin-bottom:20px;
-  }
+/* Hover effect for purchase button */
+.purchase-button:hover {
+  background-color: black;
+}
 
-  label,select,input {
-  display:block;
-  }
+/* Center, bold, and add space to the bottom of text */
+.surf-text {
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 100px; /* Adjust the value to add more or less space */
+}
 
-  label {
-  margin-bottom:5px;
-  }
+h4{
+  font-family: "Montserrat", sans-serif;
+  color: gray;
+  font-size: smaller;
+}
 
-  select,input,button {
-  width:100%;
-  }
+.small-width {
+  width: -50px; /* Adjust the width value as needed */
+}
 
-  input {
-  background:#000;
-  box-shadow:inset 1px 1px 1px #FFF;
-  color:#FF0;
-  border:none;
-  width:201.5px;
-  padding:5px;
-  }
-
-  button {
-  background:#000;
-  color:#FF0;
-  border:none;
-  border-radius:10px;
-  box-shadow:inset 1px 1px 2px white, inset -1px -1px 2px #ccc;
-  padding:5px 0;
-  }
-
-  section {
-  width:45%;
-  background-color:#000;
-  position:relative;
-  height:215px;
-  margin:5px;
-  }
-
-  section img {
-  width:100%;
-  display:block;
-  position:absolute;
-  bottom:0;
-  }
-
-  section p {
-  color:#FF0;
-  background:#000;
-  width:50px;
-  height:50px;
-  line-height:50px;
-  text-align:center;
-  border-radius:50%;
-  box-shadow:2px 2px 1px #FF0;
-  position:absolute;
-  right:10px;
-  bottom:-6px;
-  z-index:2000;
-  }
-
-  input {
-    background: black;
-    box-shadow: inset 1px 1px 1px white;
-    color: yellow;
-    border: none;
-    padding: 5px;
-    width: 201.5px;
-  }
-
-  section input {
-    color: blue;
-    background: rgb(240, 238, 238);
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    box-shadow: 2px 2px 1px yellow;
-    position: absolute;
-    right: 10px;
-    bottom: 80px;
-    z-index: 2000;
-  }
-  section label {
-    color: white;
-    line-height: 30px;
-    text-align: center;
-    position: absolute;
-    right: 15px;
-    bottom:130px;
-    z-index: 2000;
-  }
+img{
+  height: 300px;
+}

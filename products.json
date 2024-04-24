@@ -1,74 +1,104 @@
 [
   {
-    "name" : "baked beans",
-    "price" : 0.40,
-    "image" : "beans.jpg",
-    "type" : "vegetables"
+    "model": "9'0 Enzo",
+    "brand": "Meyers",
+    "price": 1375.00,
+    "image": "pink1.png",
+    "quantity_available": 10,
+    "quantity_sold": 100
   },
   {
-    "name" : "hot dogs",
-    "price" : 1.99,
-    "image" : "hotdogs.jpg",
-    "type" : "meat"
+    "model": "9'4 Babe",
+    "brand": "Meyers",
+    "price": 1455.00,
+    "image": "brown.png",
+    "quantity_available": 10,
+    "quantity_sold": 30
   },
   {
-    "name" : "spam",
-    "price" : 2.85,
-    "image" : "spam.jpg",
-    "type" : "meat"
+    "model": "9'4 Kanaka",
+    "brand": "Meyers",
+    "price": 1240.00,
+    "image": "neon.png",
+    "quantity_available": 50,
+    "quantity_sold": 80
   },
   {
-    "name" : "refried beans",
-    "price" : 0.99,
-    "image" : "refried.jpg",
-    "type" : "vegetables"
+    "model": "6'10 Intoku",
+    "brand": "Meyers",
+    "price": 885.00,
+    "image": "black.png",
+    "quantity_available": 75,
+    "quantity_sold": 9
   },
   {
-    "name" : "kidney beans",
-    "price" : 0.58,
-    "image" : "kidney.jpg",
-    "type" : "vegetables"
+    "model": "5'8 Lean",
+    "brand": "Meyers",
+    "price": 945.00,
+    "image": "purple.png",
+    "quantity_available": 4,
+    "quantity_sold": 9
+  
   },
   {
-    "name" : "garden peas",
-    "price" : 0.52,
-    "image" : "gardenpeas.jpg",
-    "type" : "vegetables"
+    "model": "9'4 Motley",
+    "brand": "Meyers",
+    "price": 1325.00,
+    "image": "green.png",
+    "quantity_available": 4,
+    "quantity_sold": 3
   },
   {
-    "name" : "mushy peas",
-    "price" : 0.58,
-    "image" : "mushypeas.jpg",
-    "type" : "vegetables"
+    "model": "9'4 Kanaka    ",
+    "brand": "Meyers",
+    "price": 14500.00,
+    "image": "blueblack.png",
+    "quantity_available": 4,
+    "quantity_sold": 10
+
+    
   },
   {
-    "name" : "corned beef",
-    "price" : 2.39,
-    "image" : "cornedbeef.jpg",
-    "type" : "meat"
+    "model": "8'6 Enzo    ",
+    "brand": "Meyers",
+    "price": 1350.00,
+    "image": "whitewhite.png",
+    "quantity_available": 4,
+    "quantity_sold": 9
+
   },
   {
-    "name" : "tomato soup",
-    "price" : 1.40,
-    "image" : "tomatosoup.jpg",
-    "type" : "soup"
+    "model": "9'4 Naupaka",
+    "brand": "Meyers",
+    "price": 1375.00,
+    "image": "blue light.png",
+    "quantity_available": 4,
+    "quantity_sold": 1
+
   },
   {
-    "name" : "chopped tomatoes",
-    "price" : 0.45,
-    "image" : "tomato.jpg",
-    "type" : "vegetables"
+    "model": "9'2 Orange",
+    "brand": "Degree 33",
+    "price": 1475.00,
+    "image": "orange.webp",
+    "quantity_available": 4,
+    "quantity_sold": 1
+
   },
   {
-    "name" : "chicken noodle soup",
-    "price" : 1.89,
-    "image" : "chickennoodle.jpg",
-    "type" : "soup"
+    "model": "9'2 R-Series",
+    "brand": "Degree 33",
+    "price": 699.00,
+    "image": "r-series.webp",
+    "quantity_available": 7,
+    "quantity_sold": 3
   },
   {
-    "name" : "carrot and coriander soup",
-    "price" : 1.49,
-    "image" : "carrotcoriander.jpg",
-    "type" : "soup"
+    "model": "9'9 Hot Pink ",
+    "brand": "Hawaii Surf Board Factory",
+    "price": 1800,
+    "image": "hotpink.webp",
+    "quantity_available": 13,
+    "quantity_sold": 50
   }
 ]

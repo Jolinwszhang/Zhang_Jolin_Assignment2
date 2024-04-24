@@ -42,7 +42,7 @@ function display_invoice() {
     let new_row = table.insertRow(1); // Inserts after the first row (index 1)
     // generate what to output in table row
     new_row.innerHTML = `
-      <td width="43%">${products[i].name}</td>
+      <td width="43%">${products[i].brand} ${products[i].model}</td>
       <td align="center" width="11%">${quantities[i]}</td>
       <td width="13%">\$${products[i].price}</td>
       <td width="54%">\$${extended_price.toFixed(2)}</td>

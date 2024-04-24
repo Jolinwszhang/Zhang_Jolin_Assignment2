@@ -1,0 +1,8 @@
+ Create login and registration page
+ Read user data into server for login and registration
+- process registration and save user registration data to user_data.json
+ Integrate login and registration pages
+  - No invoice unless logged in or registered
+ - Greet user by name on invoice
+- Process login
+- pass quantity data from login and registration to invoice
