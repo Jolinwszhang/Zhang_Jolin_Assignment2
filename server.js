@@ -1,38 +1,27 @@
 // loads the products array into server memory from the products.json file
-const products = require(__dirname + '/products.json'); // load the products.json file into memory
+const products = require(__dirname + '/products.json');
+
+// load user registration data from user_data.json file
+let user_data_file = __dirname + '/user_data.json';
+const user_data = require(user_data_file);
 
 const express = require('express');
 const app = express();
+
+// load fs module
 const fs = require('fs');
 
-let errors = {}; // keep errors on server to share with registration page
+// tmp storage for user quantities from form data
+let user_quantities;
 
-app.use(express.urlencoded({extended:true}));
-
-// user info JSON file
-let filename = "./user_";
-
-if (fs.existsSync(filename)) {
-    let stats = fs.statSync(filename);
-    data = fs.readFileSync(filename, 'utf-8');
-    users_reg_data = JSON.parse(data);
-} else {
-    console.log(filename + ' does not exist!');
-    users_reg_data = {};
-}
-
-// This processes the form data in a POST request so that the form data appears in request.body
 const myParser = require("body-parser");
 const e = require('express');
 app.use(myParser.urlencoded({ extended: true }));
 
-// Log requests to the console
 app.all('*', function (request, response, next) {
   console.log(request.method + ' to ' + request.path);
   next();
 });
-// Initialize user_data as an empty object
-let user_data = {};
 
 // process login form data
 app.post('/process_login', function (req, res, next) {
@@ -69,38 +58,82 @@ app.post('/process_registration', function (req, res, next) {
 
   const errors = {}; // assume no errors to start
   // validate name
+  // Extract email, name, password, confirm_password from request body
+  const email = req.body.email?.trim(); // Ensure it is trimmed and optional chaining to avoid undefined
+  const name = req.body.name?.trim(); // Similar to email
+  const password = req.body.psw; // Consider hashing for security
+  const confirm_password = req.body.confirm_psw; // Check if it matches password
   
+  if (!email) {
+    errors.email = 'Email is required'; // Check for missing email
+  }
+
+  if (email) {
+    const emailLower = email.toLowerCase(); // Convert email to lowercase for case-insensitive comparison
+
+    // Check if email already exists
+    if (emailLower in user_data) {
+      errors.email = 'Email is already registered';
+    }
+
+    // Validate name (optional, could add length checks, etc.)
+    if (!name) {
+      errors.name = 'Name is required';
+    }
+
+    // Ensure passwords match
+    if (password !== confirm_password) {
+      errors.password = 'Passwords do not match';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      params.append('errors', JSON.stringify(errors));
+      res.redirect('./registration_page.html?' + params.toString());
+    } else {
+      // Save user data with lowercase email
+      user_data[emailLower] = {
+        name: name,
+        password: password,
+      };
+
+      // Write updated user data to file
+      fs.writeFileSync(user_data_file, JSON.stringify(user_data, null, 2));
+
+      params.append('email', emailLower); // Use emailLower to ensure case-insensitivity
+      res.redirect('./invoice.html?' + params.toString());
+    }
+  } else {
+    // If email is undefined or has errors
+    params.append('errors', JSON.stringify(errors));
+    res.redirect('./registration_page.html?' + params.toString());
+  }
   // check if email is already taken
 
   // check if passwords match
 
   // if errors, send back to registration page to fix otherwise send to invoice
-  if (Object.keys(errors).length !== 0) {
-   response.redirect('./register.html');
-  } else{
-    //data valid so add ne user to user_data_reg
-    let new_email = request.body.email.toLowercase();
-    users_reg_data[new_email] ={};
-    users_reg_data[new_email].username = request.body.username;
-    users_reg_data[new_email].password = request.body.password; // Assuming password is in request body
+  if (Object.keys(errors).length > 0) {
+    params.append('errors', JSON.stringify(errors));
+    res.redirect('./registration_page.html?' + params.toString());
+  } else { // no  errors, save registration data, reduce inventory, go to invoice
+    // save registration data
+    let email = req.body.email;
+    user_data[email] = {};
+    user_data[email].password = req.body.psw;
+    // write user_data JSON to file
+    fs.writeFileSync(user_data_file, JSON.stringify(user_data));
 
-    // save data to user_Data_file
-    fs.writeFileSync(user_data_file,JSON.stringify(users_reg_data));
-    //reduce invenetory 
+    // decrease inventory here ** move to when invoice is created **
 
-
+    res.redirect('./invoice.html?' + params.toString());
   }
-    
+
 });
-
-
-
-
 
 // A micro-service to return the products data currently in memory on the server as
 // javascript to define the products array
-app.get('/products.json', function (request, response) {
-  response.json(products);
+app.get('/products.json', function (req, res, next) {
+  res.json(products);
 });
 
 // A micro-service to process the product quantities from the form data
@@ -149,9 +182,14 @@ app.post('/process_purchase_form', function (req, res, next) {
     params.append('errors', JSON.stringify(errors));
     res.redirect('store.html?' + params.toString());
   } else {
+    for (let i = 0; i < quantities.length; i++) {
+      const quantitySold = Number(quantities[i]);
+      const product = products[i];
+      product.quantity_available -= quantitySold;
+      product.quantity_sold += quantitySold;
+    }
     // Reduce the quantities of each product purchased from the quantities available
-    // <add code here>
-    res.redirect('./invoice.html?' + params.toString());
+    res.redirect('./login_page.html?' + params.toString());
   }
 });
 
@@ -160,12 +198,12 @@ app.use(express.static(__dirname + '/public'));
 app.listen(8080, () => console.log(`listening on port 8080`));
 
 function isNonNegInt(q, returnErrors = false) {
-  let errors = []; // assume no errors at first
+  let errs = []; // assume no errors at first
   if (q == '') q = 0; // handle blank inputs as if they are 0
-  if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
+  if (Number(q) != q) errs.push('Not a number!'); // Check if string is a number value
   else {
-    if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
-    if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
+    if (q < 0) errs.push('Negative value!'); // Check if it is non-negative
+    if (parseInt(q) != q) errs.push('Not an integer!'); // Check that it is an integer
   }
-  return returnErrors ? errors : (errors.length == 0);
+  return returnErrors ? errs : (errs.length == 0);
 }

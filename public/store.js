@@ -1,76 +1,82 @@
-// get the query string into a easy to use object
-const params = (new URL(document.location)).searchParams;
+const params = new URLSearchParams(window.location.search);
 let errors = {};
 let quantities = [];
 
-// check if the query string has errors, if so parse it
+// Parse errors from the query string
 if (params.has('errors')) {
   errors = JSON.parse(params.get('errors'));
-  // get the quantities also to insert into the form to make sticky
-  quantities = JSON.parse(params.get('quantities'));
-  // Put up an alert box if there are errors
-  // <modify code here to put up an alert if your have an error in errors indicating no quantities were selected>
-  if(typeof errors['no_quantities'] !== 'undefined'){
+  // Parse quantities from the query string
+  if (params.has('quantities')) {
+    quantities = JSON.parse(params.get('quantities'));
+  }
+  // Display an alert if there are errors indicating no quantities were selected
+  if (errors['no_quantities']) {
     alert(errors['no_quantities']);
-}
-}
-let products;
-window.onload = async function () {
-  // use fetch to retrieve product data from the server
-  // once the products have been successfully loaded and formatted as a JSON object
-  // display the products on the page
-  await fetch('products.json').then(await function (response) {
-    if (response.ok) {
-      response.json().then(function (json) {
-        products = json;
-        display_products();
-      });
-    } else {
-      console.log('Network request for products.json failed with response ' + response.status + ': ' + response.statusText);
-    }
-  });
+  }
 }
 
-// function to perform the filtering of the products
+let products;
+
+window.onload = async function () {
+  // Fetch product data from the server
+  await fetch('products.json')
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Network request for products.json failed with response ' + response.status + ': ' + response.statusText);
+      }
+    })
+    .then(json => {
+      products = json;
+      display_products();
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+// Function to filter products based on search input
 function myFunction() {
-  var input, filter, ul, si, a, i, txtValue;
-  input = document.getElementById("search_textbox");
-  filter = input.value.toUpperCase();
-  si = document.getElementsByTagName("section");
-  for (i = 0; i < si.length; i++) {
-    a = si[i].getElementsByTagName("h2")[0];
-    txtValue = a.textContent || a.innerText;
+  const input = document.getElementById("search_textbox");
+  const filter = input.value.toUpperCase();
+  const sections = document.getElementsByTagName("section");
+  for (let i = 0; i < sections.length; i++) {
+    const heading = sections[i].getElementsByTagName("h2")[0];
+    const txtValue = heading.textContent || heading.innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      si[i].style.display = "";
+      sections[i].style.display = "";
     } else {
-      si[i].style.display = "none";
+      sections[i].style.display = "none";
     }
   }
 }
 
+// Function to display products on the page
 function display_products() {
-  // loop through the products array and display each product as a section element
+  const productsMainDisplay = document.getElementById("products_main_display");
+  // Loop through the products array and display each product
   for (let i = 0; i < products.length; i++) {
-    let quantity_label = 'Quantity';
-    // if there is an error with this quantity, put it in the label to display it
-    if( (typeof errors['quantity'+i]) != 'undefined' ) {
-      quantity_label = `<font class="error_message">${errors['quantity'+i]}</font>`;
+    let quantityLabel = 'Quantity';
+    // Check if there is an error with this quantity, display it in the label
+    if (errors['quantity' + i]) {
+      quantityLabel = `<span class="error_message">${errors['quantity' + i]}</span>`;
     }
     let quantity = 0;
-    // put previous quantity in textbox if it exists
-    if((typeof quantities[i]) != 'undefined') {
+    // Insert previous quantity into the textbox if it exists
+    if (quantities[i] !== undefined) {
       quantity = quantities[i];
     }
-    products_main_display.innerHTML += `
-<section class="item">
-                <h2>${products[i].model}</h2>
-                <h4> In Stock ${products[i].quantity_available}</h4>
-                <h4> Sold ${products[i].quantity_sold}</h4>
-                <p>$${products[i].price}</p>
-                <label>${quantity_label}</label>
-                <input type="text" placeholder="0" name="quantity_textbox[${i}]" value="${quantity}">
-                <img src="./images/${products[i].image}">
-            </section>
-`;
+    productsMainDisplay.innerHTML += `
+      <section class="item">
+        <h2>${products[i].model}</h2>
+        <h4> In Stock ${products[i].quantity_available}</h4>
+        <h4> Sold ${products[i].quantity_sold}</h4>
+        <p>$${products[i].price}</p>
+        <label>${quantityLabel}</label>
+        <input type="text" placeholder="0" name="quantity_textbox[${i}]" value="${quantity}">
+        <img src="./images/${products[i].image}" alt="${products[i].model}">
+      </section>
+    `;
   }
 }
