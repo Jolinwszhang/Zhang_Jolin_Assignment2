@@ -12,7 +12,6 @@ app.use(express.urlencoded({extended:true}));
 // user info JSON file
 let filename = "./user_";
 
-
 if (fs.existsSync(filename)) {
     let stats = fs.statSync(filename);
     data = fs.readFileSync(filename, 'utf-8');
@@ -61,7 +60,6 @@ app.post('/process_login', function (req, res, next) {
 });
 
 
-
 // process registration form data
 app.post('/process_registration', function (req, res, next) {
   console.log(req.body, req.query);
@@ -84,7 +82,7 @@ app.post('/process_registration', function (req, res, next) {
     let new_email = request.body.email.toLowercase();
     users_reg_data[new_email] ={};
     users_reg_data[new_email].username = request.body.username;
-    users_reg_data[new_email].password = 
+    users_reg_data[new_email].password = request.body.password; // Assuming password is in request body
 
     // save data to user_Data_file
     fs.writeFileSync(user_data_file,JSON.stringify(users_reg_data));
@@ -164,10 +162,10 @@ app.listen(8080, () => console.log(`listening on port 8080`));
 function isNonNegInt(q, returnErrors = false) {
   let errors = []; // assume no errors at first
   if (q == '') q = 0; // handle blank inputs as if they are 0
-  if (Number(q) != q) errs.push('Not a number!'); // Check if string is a number value
+  if (Number(q) != q) errors.push('Not a number!'); // Check if string is a number value
   else {
-    if (q < 0) errs.push('Negative value!'); // Check if it is non-negative
-    if (parseInt(q) != q) errs.push('Not an integer!'); // Check that it is an integer
+    if (q < 0) errors.push('Negative value!'); // Check if it is non-negative
+    if (parseInt(q) != q) errors.push('Not an integer!'); // Check that it is an integer
   }
-  return returnErrors ? errs : (errs.length == 0);
+  return returnErrors ? errors : (errors.length == 0);
 }
