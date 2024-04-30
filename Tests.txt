@@ -1,0 +1,13 @@
+Test Cases for Surfboards:
+
+Test Case 1:
+Scenario: User selects 0 quantities for all surfboards
+Expected Result: User should be informed that they must select at least one surfboard to purchase.
+Actual Result: User is informed that they must select at least one surfboard to purchase.
+Tested by: Entering 0 in all quantity text boxes for surfboards and clicking the purchase button.
+
+Test Case 2:
+Scenario: User selects more quantities than available for a specific surfboard
+Expected Result: User should be informed that the requested quantity for the surfboard is not available. The textbox should say that we do not have enough, and it should display the available quantity.
+Actual Result: User is informed that the requested quantity for the surfboard is not available. The textbox will show, and it displays the available quantity.
+Tested by: Entering 100 in the quantity textbox for the "Blue Wave" surfboard.

@@ -49,12 +49,13 @@ app.post('/process_login', function (req, res, next) {
 });
 
 
-// process registration form data
-app.post('/process_registration', function (req, res, next) {
-  console.log(req.body, req.query);
+// process registration form data 
+app.post('/register', function (req, res, next) {
+  //console.log(req.body, req.query);
   // Process registration form POST and redirect to invoice in page if ok, back to registraion page 
-  const params = new URLSearchParams(req.query);
-  params.append('email', req.body.email);
+  const qs = new URLSearchParams(req.query);
+  qs.append('email', req.body.email);
+ 
 
   const errors = {}; // assume no errors to start
   // validate name
@@ -77,8 +78,8 @@ app.post('/process_registration', function (req, res, next) {
     }
 
     // Validate name (optional, could add length checks, etc.)
-    if (!name) {
-      errors.name = 'Name is required';
+    if (!email) {
+      errors.name = 'Email is required';
     }
 
     // Ensure passwords match
@@ -87,8 +88,9 @@ app.post('/process_registration', function (req, res, next) {
     }
 
     if (Object.keys(errors).length > 0) {
-      params.append('errors', JSON.stringify(errors));
-      res.redirect('./registration_page.html?' + params.toString());
+      qs.append('errors', JSON.stringify(errors));
+      console.log(`jolin1`);
+      res.redirect('./registration_page.html?' + qs.toString());
     } else {
       // Save user data with lowercase email
       user_data[emailLower] = {
@@ -99,35 +101,15 @@ app.post('/process_registration', function (req, res, next) {
       // Write updated user data to file
       fs.writeFileSync(user_data_file, JSON.stringify(user_data, null, 2));
 
-      params.append('email', emailLower); // Use emailLower to ensure case-insensitivity
+      qs.append('email', emailLower); // Use emailLower to ensure case-insensitivity
       res.redirect('./invoice.html?' + params.toString());
     }
   } else {
+    console.log(`jolin2`);
     // If email is undefined or has errors
-    params.append('errors', JSON.stringify(errors));
-    res.redirect('./registration_page.html?' + params.toString());
+    qs.append('errors', JSON.stringify(errors));
+    res.redirect('./registration_page.html?' + qs.toString());
   }
-  // check if email is already taken
-
-  // check if passwords match
-
-  // if errors, send back to registration page to fix otherwise send to invoice
-  if (Object.keys(errors).length > 0) {
-    params.append('errors', JSON.stringify(errors));
-    res.redirect('./registration_page.html?' + params.toString());
-  } else { // no  errors, save registration data, reduce inventory, go to invoice
-    // save registration data
-    let email = req.body.email;
-    user_data[email] = {};
-    user_data[email].password = req.body.psw;
-    // write user_data JSON to file
-    fs.writeFileSync(user_data_file, JSON.stringify(user_data));
-
-    // decrease inventory here ** move to when invoice is created **
-
-    res.redirect('./invoice.html?' + params.toString());
-  }
-
 });
 
 // A micro-service to return the products data currently in memory on the server as
@@ -135,6 +117,8 @@ app.post('/process_registration', function (req, res, next) {
 app.get('/products.json', function (req, res, next) {
   res.json(products);
 });
+//declare global quries string 
+let params;
 
 // A micro-service to process the product quantities from the form data
 // redirect to invoice if quantities are valid, otherwise redirect back to products_display
@@ -173,9 +157,9 @@ app.post('/process_purchase_form', function (req, res, next) {
     console.log(Date.now() + ': Purchase made from ip ' + req.ip + ' data: ' + JSON.stringify(req.body));
   }
   // create a query string with data from the form
-  const params = new URLSearchParams();
+  params = new URLSearchParams();
   params.append('quantities', JSON.stringify(quantities));
-
+ 
   // If there are errors, send the user back to fix otherwise redirect to the invoice with the quantities in the query string
   if (Object.keys(errors).length > 0) {
     // Have errors, redirect back to store where errors came from to fix and try again

@@ -24,6 +24,28 @@
         .w3-sidebar a {font-family: "Roboto", sans-serif}
         body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
         </style>
+        <script>
+        function validateForm() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let errorMessage = "";
+
+            if (username.trim() === "") {
+                errorMessage += "Username is required. ";
+            }
+
+            if (password.trim() === "") {
+                errorMessage += "Password is required. ";
+            }
+
+            if (errorMessage !== "") {
+                document.getElementById("error").innerText = errorMessage;
+                return false;
+            }
+
+            return true;
+        }
+    </script>
       </head>
       <body id="theBody">
     
@@ -89,7 +111,7 @@
         <input type="text" name="email" size="40" placeholder="Enter email address" style="padding: 10px; border-radius: 20px; border: 1px solid #ccc; margin-bottom: 10px;"><br>
         <input type="password" name="password" size="40" placeholder="Enter password" style="padding: 10px; border-radius: 20px; border: 1px solid #ccc; margin-bottom: 10px;"><br>
       </p>
-       
+  
         
         <p>
             <input type="submit" value="Login" style="padding: 10px 20px; border-radius: 20px; background-color: pink; color: white; border: none; cursor: pointer;">

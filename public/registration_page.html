@@ -1,128 +1,230 @@
-<script>
-  // get the query string into a easy to use object
-  const params = (new URL(document.location)).searchParams;
-  let errors = {};
-  if(params.has('errors')) {
-      errors = JSON.parse(params.get('errors'));
-      params.delete('errors');
-  }
-  console.log(errors);
-
-  // Function to get query parameters from URL
-  function getQueryParams() {
-            const params = {};
-            window.location.search
-                .substring(1) // Strip the '?'
-                .split("&") // Split key-value pairs
-                .forEach(pair => {
-                    const [key, value] = pair.split("=");
-                    if (key && value) {
-                        params[key] = decodeURIComponent(value);
-                    }
-                });
-            return params;
-              }
-     // Check if there are errors in the query parameters
-     function displayErrors() {
-            const params = getQueryParams();
-            if (params.errors) {
-                const errors = JSON.parse(params.errors); // Parse the error messages
-                let errorMessage = "Please correct the following errors:\n";
-                for (const [key, value] of Object.entries(errors)) {
-                    errorMessage += `${key}: ${value}\n`;
-                }
-                alert(errorMessage); // Display an alert with the error messages
-            }
-        }
-
-        // Run the displayErrors function when the page loads
-        window.onload = displayErrors;
-  </script>
 <!DOCTYPE html>
 <html lang="en">
-    <style>
-        * {box-sizing: border-box}
-
-/* Add padding to containers */
-.container {
-  padding: 16px;
-}
-
-/* Full-width input fields */
-input[type=text], input[type=password] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  display: inline-block;
-  border: none;
-  background: #f1f1f1;
-}
-
-input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
-  outline: none;
-}
-
-/* Overwrite default styles of hr */
-hr {
-  border: 1px solid #f1f1f1;
-  margin-bottom: 25px;
-}
-
-/* Set a style for the submit/register button */
-.registerbtn {
-  background-color: #04AA6D;
-  color: white;
-  padding: 16px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
-}
-
-.registerbtn:hover {
-  opacity:1;
-}
-
-/* Add a blue text color to links */
-a {
-  color: dodgerblue;
-}
-
-/* Set a grey background color and center the text of the "sign in" section */
-.signin {
-  background-color: #f1f1f1;
-  text-align: center;
-}
-    </style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+      .w3-sidebar a {font-family: "Roboto", sans-serif}
+      body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
+        * {box-sizing: border-box}
+
+        /* Add padding to containers */
+        .container {
+          padding: 16px;
+        }
+
+        /* Full-width input fields */
+        input[type=text], input[type=email], input[type=password] {
+          width: 100%;
+          padding: 15px;
+          margin: 5px 0 22px 0; 
+          display: inline-block;
+          border: none;
+          background: #f1f1f1;
+        }
+
+        input[type=text]:focus, input[type=email]:focus, input[type=password]:focus {
+          background-color: #ddd;
+          outline: none;
+        }
+
+        /* Overwrite default styles of hr */
+        hr {
+          border: 1px solid #f1f1f1;
+          margin-bottom: 25px;
+        }
+
+        /* Set a style for the submit/register button */
+        .registerbtn {
+          background-color: #04AA6D;
+          color: white;
+          padding: 16px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+          opacity:1;
+        }
+
+        /* Add a blue text color to links */
+        a {
+          color: dodgerblue;
+        }
+
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+          background-color: #f1f1f1;
+          text-align: center;
+        }
+    </style>
 </head>
 <body>
-      <form action="process_registration" method="POST">
+  <!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+  <div class="w3-container w3-display-container w3-padding-16">
+    <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+    <h3 class="w3-wide"><b>GSS</b></h3>
+  </div>
+  <a href="index.html" class="w3-bar-item w3-button w3-padding">Home</a>
+
+  <a href="login_page.html" class="w3-bar-item w3-button w3-padding">Login</a>
+  <a href="registration_page.html" class="w3-bar-item w3-button w3-padding">Become A Member</a>
+
+  <!-- Links moved to the bottom -->
+  <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a> 
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">Newsletter</a> 
+  <a href="#footer"  class="w3-bar-item w3-button w3-padding">Subscribe</a>
+</nav>
+
+
+<!-- Top menu on small screens -->
+<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+  <div class="w3-bar-item w3-padding-24 w3-wide">GSS</div>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+  
+</header>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:250px">
+
+  <!-- Push down content on small screens -->
+  <div class="w3-hide-large" style="margin-top:83px"></div>
+  
+  <!-- Top header -->
+  <header class="w3-container w3-xlarge">
+    <p class="w3-left">Longboards</p>
+    <p class="w3-right"></p>
+    
+
+  </header>
+
+  <!-- Image header -->
+  <div class="w3-display-container w3-container">
+    <img src="images/surf.webp" alt="Longboards" style="width:100%; height: 300px;"> 
+    <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
+      <h1 class="w3-jumbo w3-hide-small">New arrivals</h1>
+      <h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>
+      <h1 class="w3-hide-small">COLLECTION 2024</h1>
+    </div>
+  </div>
+
+  <div class="w3-container w3-text-grey" id="Longboards">
+
+  <div class="container">
+    <form action="./register" method="POST"> <!-- Updated action attribute -->
         <div class="container">
-          <h1>Register</h1>
-          <p>Please fill in this form to create an account.</p>
-          <hr>
-      
-          <label for="email"><b>Email</b></label>
-          <input type="text" placeholder="Enter Email" name="email" id="email" required>
-      
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-      
-          <label for="psw-repeat"><b>Repeat Password</b></label>
-          <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-          <hr>
-                <button type="submit" class="registerbtn">Register</button>
+            <h1>Register</h1>
+            <p>Please fill in this form to create an account.</p>
+            <hr>
+
+            <label for="login_email">Email</label>
+            <input type="email" id="login_email" name="email" required>
+
+            <label for="login_psw">Password</label>
+            <input type="password" id="login_psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, one symbol, and at least 8 or more characters" required>
+            
+            <label for="repeat_psw">Repeat Password</label>
+            <input type="password" id="repeat_psw" name="confirm_psw" required> <!-- Changed name attribute to match server-side code -->
+
+            <input type="submit" value="Submit">
         </div>
-      
-        <div class="container signin">
-          <p>Already have an account? <a href="login_page.html">Sign in</a>.</p>
-        </div>
-      </form>
+
+        <div id="message">
+          <h3>Password must contain the following:</h3>
+          <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+          <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+          <p id="number" class="invalid">A <b>number</b></p>
+          <p id="symbol" class="invalid">A <b>symbol</b></p> <!-- Updated to include symbol check -->
+          <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+      </div>
+    </form>
+  </div>
+
+<script>
+  /*
+    var myInput = document.getElementById("login_psw");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var symbol = document.getElementById("symbol"); // New symbol element
+    var length = document.getElementById("length");
+
+    // When the user clicks on the password field, show the message box
+    myInput.onfocus = function() {
+        document.getElementById("message").style.display = "block";
+    }
+
+    // When the user starts to type something inside the password field
+    myInput.onkeyup = function() {
+        // Validate lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if(myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if(myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if(myInput.value.match(numbers)) {
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        // Validate symbols
+        var symbols = /[!@#$%^&*]/g;
+        if(myInput.value.match(symbols)) {
+            symbol.classList.remove("invalid");
+            symbol.classList.add("valid");
+        } else {
+            symbol.classList.remove("valid");
+            symbol.classList.add("invalid");
+        }
+
+        // Validate length
+        if(myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }*/
+  </script>
+
+  <div class="container signin">
+    <p>Already have an account? <a href="login_page.html">Sign in</a>.</p>
+  </div>
+  
+
 </body>
 </html>
