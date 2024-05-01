@@ -1,13 +1,66 @@
 Test Cases for Surfboards:
 
-Test Case 1:
-Scenario: User selects 0 quantities for all surfboards
-Expected Result: User should be informed that they must select at least one surfboard to purchase.
-Actual Result: User is informed that they must select at least one surfboard to purchase.
-Tested by: Entering 0 in all quantity text boxes for surfboards and clicking the purchase button.
+Test 0: user name for login 222 password 222
 
-Test Case 2:
-Scenario: User selects more quantities than available for a specific surfboard
-Expected Result: User should be informed that the requested quantity for the surfboard is not available. The textbox should say that we do not have enough, and it should display the available quantity.
-Actual Result: User is informed that the requested quantity for the surfboard is not available. The textbox will show, and it displays the available quantity.
-Tested by: Entering 100 in the quantity textbox for the "Blue Wave" surfboard.
+Test1
+Scenario: User login with unregistered email address
+Expected Result: User is sent back to login page and informed that there is no account for email address. Email address entered remains in textbox (sticky) but password textbox is empty.
+Actual Result: User is sent back to login page but not informed that account does not exist, email not sticky
+Tested by: Entering xxx@yyy.zz in email textbox and clicking login submit button
+Status: Partial fail
+
+Test2
+Scenario: User logs in with correct credentials
+Expected Result: User is redirected to the products page.
+Actual Result: User is redirected to the products page.
+Tested by: Entering valid email and password and clicking login submit button
+Status: Pass
+
+Test3
+Scenario: User logs in with incorrect password
+Expected Result: User remains on the login page and receives an error message indicating incorrect password.
+Actual Result: User remains on the login page and receives an error message indicating incorrect password.
+Tested by: Entering valid email and incorrect password and clicking login submit button
+Status: Pass
+
+Test4
+Scenario: User logs in with incorrect email
+Expected Result: User remains on the login page and receives an error message indicating incorrect email.
+Actual Result: User remains on the login page and receives an error message indicating incorrect email.
+Tested by: Entering incorrect email and valid password and clicking login submit button
+Status: Pass
+
+Test5
+Scenario: User selects products and proceeds to checkout
+Expected Result: User is redirected to the checkout page.
+Actual Result: User is redirected to the checkout page.
+Tested by: Adding products to cart and clicking checkout button
+Status: Pass
+
+Test6
+Scenario: User completes checkout process successfully
+Expected Result: User receives an order confirmation and is redirected to the invoice page.
+Actual Result: User receives an order confirmation and is redirected to the invoice page.
+Tested by: Filling out shipping and payment information and clicking confirm order button
+Status: Pass
+
+Test7
+Scenario: User logs out after adding products to cart
+Expected Result: User is redirected to the login page.
+Actual Result: User is redirected to the login page.
+Tested by: Clicking logout button after adding products to cart
+Status: Pass
+
+Test8
+Scenario: User attempts to access checkout page without logging in
+Expected Result: User is redirected to the login page.
+Actual Result: User is redirected to the login page.
+Tested by: Directly accessing the checkout page without logging in
+Status: Pass
+
+Test9
+Scenario: User attempts to access invoice page without completing checkout
+Expected Result: User is redirected to the checkout page.
+Actual Result: User is redirected to the checkout page.
+Tested by: Directly accessing the invoice page without completing checkout
+Status: Pass

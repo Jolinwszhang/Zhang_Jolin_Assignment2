@@ -191,3 +191,53 @@ function isNonNegInt(q, returnErrors = false) {
   }
   return returnErrors ? errs : (errs.length == 0);
 }
+// IR 1 
+const http = require('http');
+
+const users = [
+    {
+        username: 'exampleUser',
+        hashedPassword: '8f4343464a096f67d46c97e0c9b3befd7a51722efb2346f183428b2d7184fd38' // Hashed password from registration
+    }
+];
+
+const server = http.createServer((req, res) => {
+    if (req.url === '/register' && req.method === 'POST') {
+        let body = '';
+
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+            const userData = JSON.parse(body);
+            const hashedPassword = crypto.createHash('sha256').update(userData.password).digest('hex');
+            // Save the hashed password and other user data to your database or file
+            // You can use fs module for file operations or connect to a database like MongoDB
+            res.end('Registration successful');
+        });
+    } else if (req.url === '/login' && req.method === 'POST') {
+        let body = '';
+
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+
+        req.on('end', () => {
+            const loginData = JSON.parse(body);
+            const hashedPassword = crypto.createHash('sha256').update(loginData.password).digest('hex');
+            const user = users.find(u => u.username === loginData.username && u.hashedPassword === hashedPassword);
+            
+            if (user) {
+                res.end('Login successful');
+            } else {
+                res.end('Invalid username or password');
+            }
+        });
+    }
+});
+
+const PORT = 3000;
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
