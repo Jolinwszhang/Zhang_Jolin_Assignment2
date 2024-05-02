@@ -20,5 +20,14 @@
     "name": "ITM 352",
     "password": "grader",
     "email": "itm352@hawaii.edu"
+  },
+  "ethan@hawaii.edu": {
+    "password": "Aloha1234!"
+  },
+  "haley@gmail.com": {
+    "password": "Aloha123!"
+  },
+  "taylor@gmail.com": {
+    "password": "Aloha123!"
   }
 }
